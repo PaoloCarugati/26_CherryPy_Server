@@ -60,7 +60,10 @@ class MyController(object):
     def GET(self, id=-1):
         ###
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
-        cherrypy.response.headers['Access-Control-Allow-Headers'] = 'ngrok-skip-browser-warning'    
+        ###
+        #cherrypy.response.headers['Access-Control-Allow-Headers'] = 'ngrok-skip-browser-warning, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With' 
+        #cherrypy.response.headers['Access-Control-Allow-Methods'] =  "POST, GET, PUT, DELETE, OPTIONS"
+        #cherrypy.response.headers['ngrok-skip-browser-warning'] = 'ciao'        
         ###
         projection = { "_id": 0 }
         if (int(id) == -1):            
@@ -80,14 +83,18 @@ class MyController(object):
     def POST(self):
         ###
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
-        cherrypy.response.headers['Access-Control-Allow-Headers'] = 'ngrok-skip-browser-warning'    
+        ###
+        #cherrypy.response.headers['Access-Control-Allow-Headers'] = 'ngrok-skip-browser-warning, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With' 
+        #cherrypy.response.headers['Access-Control-Allow-Methods'] =  "POST, GET, PUT, DELETE, OPTIONS"
+        #cherrypy.response.headers['ngrok-skip-browser-warning'] = 'ciao'     
+        #cherrypy.response.headers['x-requested-with'] = 'staceppa'   
         ###
         data = cherrypy.request.json
         res = self.collection.insert_one(data)
         return 0
 
 
-    #@cherrypy.expose
+    @cherrypy.expose
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
     def PUT(self):
@@ -110,7 +117,7 @@ class MyController(object):
             return {} 
             
 
-    #@cherrypy.expose
+    @cherrypy.expose
     @cherrypy.tools.json_out()
     def DELETE(self, id=-1):
         res = self.collection.delete_one({ "id": int(id) })
